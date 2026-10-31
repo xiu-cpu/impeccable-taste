@@ -46,6 +46,53 @@ In the commands below `<skill>` is this skill's folder. Run them from the projec
 working files land in `.taste-skill/` there. The scripts need Node 22+ and an installed Chrome, Edge
 or Chromium, and install nothing. `assets.mjs` also needs network access; it uses no API keys.
 
+## 安装与运行环境（原 README 精华）
+
+**安装**：把本目录复制到智能体技能目录（如 `~/.claude/skills/design-taste-frontend/` 或
+`~/.zcode/skills/impeccable-taste/`），或保留在仓库的 `.claude/skills/` 下。
+
+**环境要求**：`inspect.mjs` 需要 Node 22+ 和已安装的 Chrome / Edge / Chromium（通过 DevTools
+协议驱动浏览器，不安装任何东西；浏览器路径异常时设 `CHROME_PATH`）。`draw.mjs` / `lint.mjs` /
+`assets.mjs` 只需 Node 18+。`assets.mjs` 需要网络访问，不使用 API 密钥。
+
+**目录结构**：
+
+```
+SKILL.md                 执行流程、家规、法则、色彩系统、豁免纪律（本文件，自包含）
+README.md                项目介绍（GitHub 展示用，内容已并入本文件）
+references/              copy、type、colour、layout、imagery、motion、critique、
+                         tells、research、app-screens 十二篇细则
+scripts/draw.mjs         发方向选项 / 完整方向 / 重印 / 重抽；--alternatives、--photos、--site
+scripts/assets.mjs       检索开放图库（Openverse、Wikimedia Commons、芝加哥艺术学院、大都会
+                         博物馆）；--video 找真实视频片段；--get 带署名下载；--credits 打印署名
+scripts/lint.mjs         静态扫描违禁模式与套话
+scripts/inspect.mjs      渲染、度量、截图（1440/768/390 三宽度）
+scripts/lib/             零依赖 Chrome DevTools 客户端、页内探针、规则集
+library/                 方向(20)、hero、区块、字体系统、调色板、摄影、研究站点、动效
+assets/base.css, base.js 可选的中性基础层
+assets/scenes/           滚动场景：共享舞台 + 各场景 .js/.css + demo 页
+assets/app.css, charts.js 应用屏：中性壳、面板、表格、控件、小 SVG 图表
+evals/evals.json         六个 brief，用于对比无 skill 基线测试本 skill
+```
+
+## 许可与注意事项
+
+- **许可**：taste-skill 部分 MIT（© 2026 Leonxlnx）；impeccable 概念与方法 Apache-2.0
+  （© pbakaus）；整合与液态玻璃补丁 MIT（© 2026 Leonxlnx）。详见仓库 LICENSE 与 NOTICE.md
+- library 中的摄影图由 Lorem Picsum 从 Unsplash 提供，Unsplash 许可。它们是氛围占位；
+  替换为项目自己的图片
+- `assets.mjs` 找到的图片保留各自许可。默认只提供 CC0、公有领域、CC BY、CC BY-SA，
+  `--get` 把每张下载的标题、作者、许可与来源记录在 `assets/credits.json`。页面必须携带
+  署名（`--credits` 打印）
+- `assets.mjs --video` 检索主题世界的短片，取 ≤720p 版本，未传 `--max-mb` 时拒绝 >25MB
+  文件，并为每个片段保存海报帧；如何用在页面（静默循环、海报帧、reduced-motion 下停住）
+  见 `references/imagery.md` §11
+- 字体从 Google Fonts 与 Fontshare 加载。使用前核对每个字面的许可
+- `references/research.md` 的评分是模型从截图的判断，不是 Awwwards 分数
+- 抽签历史在 `~/.taste-skill/history.json`（`TASTE_SKILL_HISTORY` 可迁移路径）。删除即重置
+- 一次构建约花智能体 30–45 分钟与数十万 token（含完整看-修循环）；大头在没有自有照片时
+  找图或画图
+
 ## Page or app screen
 
 Decide first which of two kinds of work this is.
